@@ -1,0 +1,37 @@
+name: Build Flutter Release APK
+
+on:
+  push:
+    branches:
+      - main   # or "master" or whichever branch you use for release
+  workflow_dispatch: # allows manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Setup Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.0' # replace with your Flutter version
+
+      # 3. Get dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 4. Build release APK
+      - name: Build release APK
+        run: flutter build apk --release
+
+      # 5. Upload APK as artifact
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
