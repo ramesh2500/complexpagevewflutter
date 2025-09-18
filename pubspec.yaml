@@ -1,7 +1,7 @@
 name: transformer_pageview_example
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -19,4 +19,5 @@ flutter:
   uses-material-design: true
 
   assets:
+
     - assets/
