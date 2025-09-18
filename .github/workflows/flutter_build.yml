@@ -19,17 +19,28 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0' # pick the version you need
+          flutter-version: '3.24.0' # Or match your project version
 
-      # 3. Install dependencies
+      # 3. Cache Flutter packages (⚡ speeds up builds)
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            build
+          key: ${{ runner.os }}-flutter-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      # 4. Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # 4. Build APK
+      # 5. Build APK
       - name: Build APK
         run: flutter build apk --release
 
-      # 5. Upload APK as Artifact
+      # 6. Upload APK as Artifact
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
