@@ -3,7 +3,7 @@ name: Flutter Build APK
 on:
   push:
     branches:
-      - main   # or master, or any branch you want to trigger builds on
+      - main
   pull_request:
 
 jobs:
@@ -19,11 +19,11 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0' # pick the version you need
+          flutter-version: '3.24.0'
 
       # 3. Install dependencies
       - name: Install dependencies
-        run: flutter pub get
+        run: flutter pub get   # ✅ MUST use flutter pub, not dart pub
 
       # 4. Build APK
       - name: Build APK
