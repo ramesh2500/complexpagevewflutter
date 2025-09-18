@@ -1,28 +1,25 @@
 name: Flutter Build APK
 
 on:
-  workflow_dispatch:   # ✅ allows manual trigger from Actions tab
+  workflow_dispatch:
   push:
     branches:
-      - main           # ✅ auto run on push to main
-  pull_request:        # ✅ auto run on PRs
+      - main
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0' # or your project version
+          flutter-version: '3.24.0'
 
-      # 3. Cache dependencies (⚡ speeds up build)
       - name: Cache Flutter dependencies
         uses: actions/cache@v3
         with:
@@ -33,17 +30,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-flutter-
 
-      # 4. Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. Build APK
       - name: Build release APK
         run: flutter build apk --release
 
-      # 6. Upload APK as artifact
       - name: Upload release APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4   # ← updated from v3 to v4
         with:
           name: release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
